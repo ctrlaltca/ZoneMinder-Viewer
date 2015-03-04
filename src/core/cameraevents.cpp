@@ -39,6 +39,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTimer>
+#include <QDebug>
 
 class CameraEventCalendar : public QCalendarWidget{
 public:
@@ -184,7 +185,7 @@ void CameraEvents::initCameraStream()
     query.exec( "SELECT Value FROM Config WHERE Name='ZM_PATH_ZMS';" );
     //if we don't found this...game over
     if ( !query.next() ) {
-        qDebug("CameraEvents::showOurEvent: Can't find the zm_path_zms config in database so we can't continue");
+        qDebug() << "CameraEvents::showOurEvent: Can't find the zm_path_zms config in database so we can't continue";
         return;
     }
 
@@ -270,8 +271,8 @@ void CameraEvents::updateDeleteButton( const QModelIndex & index ){
 
 void CameraEvents::deleteEvent(){
     int row = m_view->currentIndex().row();
-    qDebug( qPrintable (m_model->record( row ).value( Id ).toString() ) );
-    qDebug( "CameraEvents::deleteEvent: implement me!" );
+    qDebug() << qPrintable (m_model->record( row ).value( Id ).toString() );
+    qDebug() << "CameraEvents::deleteEvent: implement me!";
 }
 
 void CameraEvents::updateEvents(){

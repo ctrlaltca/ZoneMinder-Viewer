@@ -29,6 +29,7 @@
 #include <QPixmap>
 #include <QTimer>
 #include <QUrl>
+#include <QDebug>
 
 class Stream::Private
 {
@@ -134,7 +135,7 @@ void Stream::setEvent ( quint16 event ){
 void Stream::start(FrameWidget *frameWidget)
 {
     QString const complete_url = completeUrl();
-    qDebug(qPrintable(complete_url));
+    qDebug() << qPrintable(complete_url);
 
     d->player->setFrameWidget(frameWidget);
     d->player->start(complete_url);

@@ -27,6 +27,7 @@
 #include <QMenu>
 #include <QList>
 #include <QAction>
+#include <QDebug>
 
 DoubleCameraWidget::DoubleCameraWidget( QWidget * parent )
 :QWidget( parent )

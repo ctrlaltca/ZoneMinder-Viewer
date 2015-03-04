@@ -20,6 +20,8 @@
 #include "authdialog.h"
 
 #include <QMessageBox>
+#include <QDebug>
+ 
 AuthDialog::AuthDialog( Auth * auth ,  QWidget * parent )
 :QDialog ( parent )
 {

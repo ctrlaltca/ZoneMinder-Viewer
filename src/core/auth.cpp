@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "auth.h"
-
 #include "connectionmanager.h"
 
 #include <QSqlDatabase>
@@ -34,6 +33,7 @@
 #include <QTcpSocket>
 
 #include <QSettings>
+#include <QDebug>
 
 Auth::Auth ( const QString & db , QObject * parent )
     :QObject(parent), m_db(db), m_isAuth(false), m_AuthType(NONE), m_needAuth(false)
@@ -69,11 +69,11 @@ bool Auth::userLogin ( const QString &username , const QString &password )
 {
     if ( m_AuthType == NONE && !m_needAuth )
     {
-        qDebug ( "userLogin::Try to login with NONE ? Please Fix this." );
+        qDebug () << "userLogin::Try to login with NONE ? Please Fix this.";
         return m_isAuth = true;
     }
     /*if ( m_AuthType == HASHED){
-            qDebug("userLogin::HASHED Auth not implemented yet!");
+            qDebug() << "userLogin::HASHED Auth not implemented yet!";
             return m_isAuth = true;
     }*/
     QSqlDatabase db = QSqlDatabase::database ( m_db );
@@ -144,7 +144,7 @@ const QByteArray Auth::calculateAuthKey()
 
     ok = query.exec( QString("SELECT Value from Config where Name = 'ZM_AUTH_HASH_SECRET'") );
     if (!ok || !query.next()) {
-        qDebug("Hash Error: error getting zm_auth_hash_secret from db %s", qPrintable(query.lastError().text()));
+        qDebug() << "Hash Error: error getting zm_auth_hash_secret from db" << qPrintable(query.lastError().text());
         return QByteArray();
     }
 
@@ -152,7 +152,7 @@ const QByteArray Auth::calculateAuthKey()
 
     ok = query.exec( QString("SELECT Value from Config where Name = 'ZM_AUTH_HASH_IPS'") );
     if (!ok || !query.next()) {
-        qDebug("Hash Error: error getting zm_auth_hash_ips from db %s", qPrintable(query.lastError().text()));
+        qDebug() << "Hash Error: error getting zm_auth_hash_ips from db" << qPrintable(query.lastError().text());
         return QByteArray();
     }
 
@@ -160,8 +160,8 @@ const QByteArray Auth::calculateAuthKey()
 
     ok = query.exec( QString("SELECT now()") );
     if (!ok || !query.next()) {
-        qDebug("Hash Error: Can not read Server Time. now() function doesn't work %s",
-               qPrintable(query.lastError().text()));
+        qDebug() << "Hash Error: Can not read Server Time. now() function doesn't work" <<
+               qPrintable(query.lastError().text());
         return QByteArray();
     }
 
@@ -199,11 +199,11 @@ const QByteArray Auth::calculateAuthKey()
     auth_key += QString::number( dateTime.date().month() -1 ); //month
     auth_key += QString::number( dateTime.date().year() - 1900 ); //years since 1900
 
-    qDebug ( qPrintable("authkey: " + auth_key) );
+    qDebug () << qPrintable("authkey: " + auth_key);
 
     QByteArray ret = QCryptographicHash::hash( auth_key.toUtf8(), QCryptographicHash::Md5 );
-    //qDebug ( qPrintable(QString (auth_key.toUtf8())) );
-    qDebug ( qPrintable("authkey hex: " + ret.toHex()) );
+    //qDebug () << qPrintable(QString (auth_key.toUtf8()));
+    qDebug () << qPrintable("authkey hex: " + ret.toHex());
 
     m_authKey = ret.toHex();
     return m_authKey;

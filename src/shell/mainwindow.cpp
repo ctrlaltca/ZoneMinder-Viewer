@@ -222,7 +222,7 @@ void MainWindow::initSettings()
 
     foreach ( const QString name , con )
     {
-        qDebug ( "%s init...", qPrintable ( name ) );
+        qDebug () << qPrintable ( name ) << "init...";
         m_settings->beginGroup ( name );
         bool b = ConnectionManager::addConnection ( m_settings->value ( "driver" ).toString(),
                                                     m_settings->value ( "host" ).toString(),

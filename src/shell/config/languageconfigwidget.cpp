@@ -22,7 +22,8 @@
 
 #include <QDir>
 #include <QTranslator>
-
+#include <QDebug>
+ 
 LanguageConfigWidget::LanguageConfigWidget( QWidget * parent )
 :ConfigDialogPage( parent )
 {

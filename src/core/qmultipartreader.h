@@ -24,15 +24,14 @@
 	@author Leandro Emanuel López <lopezlean@gmail.com>
 */
 #include <QObject>
-class QHttpResponseHeader;
-class QHttp;
+//class QHttpResponseHeader;
 class QLineParser;
 
 class QMultiPartReader: public QObject{
   Q_OBJECT
 public:
     QMultiPartReader( const QByteArray &boundary , QObject * parent = 0 );
-    QString setBoundaryFromHeader( const QHttpResponseHeader & header );
+   // QString setBoundaryFromHeader( const QHttpResponseHeader & header );
     ~QMultiPartReader();
 
 Q_SIGNALS:

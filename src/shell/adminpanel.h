@@ -21,25 +21,9 @@
 #ifndef ADMINPANEL_H
 #define ADMINPANEL_H
 #include <Qt>
-#if QT_VERSION >= 0x040400
-    #include <QtWebKit/QWebView>
-#else
-    #include <QMessageBox>
-    #include <QWidget>
-    class QUrl;
-    class QWebView : public QWidget{
-        public:
-        QWebView( QWidget * parent = 0 ):QWidget( parent){};
-        void load( const QUrl & url ){ return; }
-        void show(){      QMessageBox::information ( 0, tr("Not available"), tr("You must compile with Qt 4.4 or later to use this feature"));}
-    };
-    class QWebPage{
-        public:
-        enum WebWindowType{};
-     };
-#endif
+#include <QTextBrowser>
 
-class AdminPanel: public QWebView {
+class AdminPanel: public QTextBrowser {
     Q_OBJECT
 public:
     AdminPanel(QWidget * parent = 0 );
@@ -51,7 +35,7 @@ protected Q_SLOTS:
      void resizeToConfigSize();
 
 protected:
-    QWebView * createWindow ( QWebPage::WebWindowType  );
+    QTextBrowser * createWindow ( );
 };
 
 #endif

@@ -25,28 +25,35 @@
 #include <QtNetwork/QtNetwork>
 #include <QtCore/QtCore>
 
-AdminPanel::AdminPanel(QWidget * parent ) :QWebView( parent )
+AdminPanel::AdminPanel(QWidget * parent ) :QTextBrowser( parent )
 {
 }
 
 bool AdminPanel::setHost( const QString &host, const QString &settingGroup ){
     bool okPressed = false;
 
-#if QT_VERSION >= 0x040400
      QString urlstr = QInputDialog::getText(0, tr("ZMViewer - Where is the ZoneMinder Web Root location?"),
                                             tr("ZoneMinder Default Administration Interface Root Location"),
                                             QLineEdit::Normal, host , &okPressed);
 
+#if QT_VERSION < 0x050000
      QUrl url( urlstr + "/index.php?skin=classic");
      url.addQueryItem("action", "login");
      url.addQueryItem("view", "options");
      //TODO: change this to get username and pass from auth class.
      url.addQueryItem("username", "admin");
      url.addQueryItem("password", "secret");
-
-     QNetworkRequest request(url);
-     request.setHeader(QNetworkRequest::ContentTypeHeader, "text/html");
-     load(request, QNetworkAccessManager::PostOperation, url.encodedQuery());
+#else
+     QUrl url( urlstr + "/index.php?skin=classic");
+     QUrlQuery urlQuery;
+     urlQuery.addQueryItem("action", "login");
+     urlQuery.addQueryItem("view", "options");
+     //TODO: change this to get username and pass from auth class.
+     urlQuery.addQueryItem("username", "admin");
+     urlQuery.addQueryItem("password", "secret");
+     url.setQuery(urlQuery);
+#endif
+     setSource(url);
 
      QSettings s;
      s.beginGroup( settingGroup );
@@ -54,18 +61,17 @@ bool AdminPanel::setHost( const QString &host, const QString &settingGroup ){
      s.endGroup();
 
      setWindowTitle( tr( "ZMViewer - %1 Admin Panel" ).arg( url.host() ) );
-#endif
 
      return okPressed;
 }
 
-QWebView * AdminPanel::createWindow ( QWebPage::WebWindowType /*type*/ ){
+QTextBrowser * AdminPanel::createWindow ( ){
     return this; //this is how we handle pop-up windows
 }
 
 void AdminPanel::show()
 {
-    QWebView::show();
+    QTextBrowser::show();
     QTimer::singleShot(0, this, SLOT(resizeToConfigSize()));
 }
 

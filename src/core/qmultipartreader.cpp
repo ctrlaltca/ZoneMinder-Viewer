@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QByteArray>
 #include <QBuffer>
-#include <QHttpResponseHeader>
+//#include <QHttpResponseHeader>
 
 //#define DEBUG_PARSING
 class QMultiPartReader::Private{
@@ -127,7 +127,7 @@ QByteArray QMultiPartReader::read( const QByteArray  &data )
                 {
 #ifdef DEBUG_PARSING
                     QString length = QString::fromLatin1(line.data()+15).trimmed().toLower();
-                    qDebug ( ) << "Content-Length: " << length;
+                    qDebug () << "Content-Length: " << length;
 #else
                      ; //nop
 #endif
@@ -242,6 +242,7 @@ void QMultiPartReader::startOfData()
 /**
     TODO
 */
+    /*
 QString QMultiPartReader::setBoundaryFromHeader( const QHttpResponseHeader & header ){
     QString tmp = header.value ("boundary");
     if (tmp.startsWith(QLatin1String("--")))
@@ -251,7 +252,7 @@ QString QMultiPartReader::setBoundaryFromHeader( const QHttpResponseHeader & hea
     d->m_boundaryLength = d->m_boundary.length();
     return d->m_boundary;
 }
-
+*/
 QByteArray QMultiPartReader::endOfData()
 {
         if ( !d->buffer.data().isNull() ){

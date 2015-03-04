@@ -26,7 +26,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
-
+#include <QDebug>
 
 class Style::Private
 {
@@ -36,7 +36,7 @@ class Style::Private
         {
             if ( version.isNull() )
             {
-                qDebug ( "no version for style: %s", qPrintable ( xmlFile ) );
+                qDebug () << "no version for style:" << qPrintable ( xmlFile );
                 return true;
             }
             if ( version == "0.1" ) return true;
@@ -56,7 +56,7 @@ class Style::Private
 Style::Style ( const QString & xmlFile, QObject * parent )
         :QObject(parent) , d ( new Private )
 {
-    qDebug ( "Style::Style: xml file: %s", qPrintable ( xmlFile ) );
+    qDebug () << "Style::Style: xml file:" << qPrintable ( xmlFile );
     d->xmlFile = xmlFile;
     init();
 }
@@ -66,7 +66,7 @@ void Style::init()
     QFile file ( d->xmlFile );
     if ( !file.open ( QIODevice::ReadOnly ) )
     {
-        qDebug ( "Style::init: could not open xml file: %s", qPrintable ( d->xmlFile ) );
+        qDebug () << "Style::init: could not open xml file: %s", qPrintable ( d->xmlFile );
         d->isValid = false;
         return;
     }
@@ -127,7 +127,7 @@ void Style::parseStyle ( const QDomElement & e )
         d->styleSheetFile = e.text();
     }else{
         if ( !e.tagName().isNull() || e.tagName() !="" )
-            qDebug( "Style::parseStyle(): Unknown tag %s in  style file: %s", qPrintable( e.tagName()), qPrintable(d->xmlFile ) );
+            qDebug() << "Style::parseStyle(): Unknown tag" << qPrintable( e.tagName()) << "in  style file:" << qPrintable(d->xmlFile );
     }
 }
 Style::Style():d(new Private){}

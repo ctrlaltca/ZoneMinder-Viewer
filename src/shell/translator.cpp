@@ -24,6 +24,7 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QSettings>
+#include <QDebug>
 
 static Translator * m_instance = 0;
 
@@ -64,7 +65,7 @@ bool Translator::loadLanguage(QString &localeString ){
 
     if ( !isDefault ){
         if (!d->qtTranslator.load("qt_" + localeString , QLibraryInfo::location( QLibraryInfo::TranslationsPath ) ) )
-            qDebug ( qPrintable(QString("Translator::Can not load Qt Translations for locale %s" ).arg( localeString ) ) );
+            qDebug () << qPrintable(QString("Translator::Can not load Qt Translations for locale %s" ).arg( localeString ) );
         else qApp->installTranslator( &d->qtTranslator );
     } else qApp->removeTranslator( &d->qtTranslator );
     bool loaded = false;
