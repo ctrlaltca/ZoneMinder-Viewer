@@ -26,7 +26,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
-
+#include <QDebug>
 
 class Style::Private
 {
@@ -36,7 +36,7 @@ class Style::Private
         {
             if ( version.isNull() )
             {
-                qDebug ( "no version for style: %s", qPrintable ( xmlFile ) );
+                qDebug() << "no version for style:" << xmlFile;
                 return true;
             }
             if ( version == "0.1" ) return true;
@@ -56,7 +56,7 @@ class Style::Private
 Style::Style ( const QString & xmlFile, QObject * parent )
         :QObject(parent) , d ( new Private )
 {
-    qDebug ( "Style::Style: xml file: %s", qPrintable ( xmlFile ) );
+    qDebug() << "Style::Style: xml file:" << xmlFile;
     d->xmlFile = xmlFile;
     init();
 }
@@ -66,7 +66,7 @@ void Style::init()
     QFile file ( d->xmlFile );
     if ( !file.open ( QIODevice::ReadOnly ) )
     {
-        qDebug ( "Style::init: could not open xml file: %s", qPrintable ( d->xmlFile ) );
+        qDebug() << "Style::init: could not open xml file:" << d->xmlFile;
         d->isValid = false;
         return;
     }
@@ -78,7 +78,7 @@ void Style::init()
     QDomDocument document;
     if ( !document.setContent ( &source, &reader, &errorMsg, &line , &column ) )
     {
-        qWarning ( "Invalid Style Format: %s at line %d , column %d", qPrintable ( errorMsg ), line, column );
+        qWarning() << "Invalid Style Format: " << errorMsg << "at line" << line << ", column" << column;
         d->isValid = false;
         return;
     }
@@ -87,7 +87,7 @@ void Style::init()
     QDomNode n = docElem.firstChild();
     if ( docElem.tagName() =="zmviewerstyle" && !d->canManageStyleVersion ( docElem.attribute ( "version" ) ) )
     {
-        qWarning ( "Style::init():Style version not supported" );
+        qWarning() << "Style::init():Style version not supported";
         d->isValid = false;
         return;
     }
@@ -127,7 +127,7 @@ void Style::parseStyle ( const QDomElement & e )
         d->styleSheetFile = e.text();
     }else{
         if ( !e.tagName().isNull() || e.tagName() !="" )
-            qDebug( "Style::parseStyle(): Unknown tag %s in  style file: %s", qPrintable( e.tagName()), qPrintable(d->xmlFile ) );
+            qDebug() << "Style::parseStyle(): Unknown tag" << e.tagName() << "in  style file:" << d->xmlFile;
     }
 }
 Style::Style():d(new Private){}
@@ -167,7 +167,7 @@ QString Style::styleSheet() const{
     QString fileAbs = info.path() + QDir::separator() + d->styleSheetFile ;
     QFile file ( fileAbs );
     if ( !file.open( QFile::ReadOnly ) ){
-            qWarning ("Style::styleSheet():qss file %s not found", qPrintable (fileAbs ) );
+            qWarning () << "Style::styleSheet():qss file " << fileAbs << " not found";
             return QString();
     }
     return file.readAll();

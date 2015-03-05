@@ -24,12 +24,12 @@
 #include "auth.h"
 #include "authdialog.h"
 
-#include<QSqlQuery>
-#include<QStringList>
-#include<QPair>
-#include<QVariant>
-#include<QSqlRecord>
-
+#include <QSqlQuery>
+#include <QStringList>
+#include <QPair>
+#include <QVariant>
+#include <QSqlRecord>
+#include <QDebug>
 
 static QList<QPair < QString,QString> > hostList;
 Monitors::Monitors ( QObject * parent )
@@ -50,7 +50,7 @@ void Monitors::init()
         query.exec ( "SELECT Value FROM Config WHERE Name='ZM_PATH_ZMS';" );
         //if we don't found this...game over
         if ( !query.next() ) {
-            qDebug("Can't find the zm_path_zms config in database so we can't continue");
+            qDebug() << "Can't find the zm_path_zms config in database so we can't continue";
             return;
         }
 

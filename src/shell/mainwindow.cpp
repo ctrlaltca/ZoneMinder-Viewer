@@ -203,9 +203,9 @@ void MainWindow::initSettings()
     int h = m_settings->value ( "sizeH" , size().height() ).toInt();
 
     Qt::ToolBarArea layoutBarArea = (Qt::ToolBarArea)m_settings->value ( "layoutBarArea" , Qt::TopToolBarArea ).toInt();
-    m_layoutBar->setVisible(m_settings->value ( "layoutBarVisible" , true ).toBool());
+    m_layoutBar->setVisible(true); //m_settings->value ( "layoutBarVisible" , true ).toBool());
     Qt::ToolBarArea controlBarArea = (Qt::ToolBarArea)m_settings->value ( "controlBarArea" , Qt::TopToolBarArea ).toInt();
-    m_controlBar->setVisible(m_settings->value ( "controlBarVisible" , true ).toBool());
+    m_controlBar->setVisible(true); //m_settings->value ( "controlBarVisible" , true ).toBool());
 
     if ( layoutBarArea == Qt::NoToolBarArea ) layoutBarArea = Qt::TopToolBarArea;
     if ( controlBarArea == Qt::NoToolBarArea ) controlBarArea = Qt::TopToolBarArea;
@@ -220,7 +220,7 @@ void MainWindow::initSettings()
 
     foreach ( const QString name , con )
     {
-        qDebug ( "%s init...", qPrintable ( name ) );
+        qDebug() << "init..." << name;
         m_settings->beginGroup ( name );
         bool b = ConnectionManager::addConnection ( m_settings->value ( "driver" ).toString(),
                                                     m_settings->value ( "host" ).toString(),

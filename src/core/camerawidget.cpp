@@ -29,6 +29,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QPaintEvent>
+#include <QDebug>
 
 //local includes
 #include "cameraadddialog.h"
@@ -67,7 +68,7 @@ CameraWidget::CameraWidget( const CameraWidget & other ): QFrame(static_cast<QWi
     this->m_autoAdjustImage = other.m_autoAdjustImage;
     this->m_conectionName = other.m_conectionName;
     this->d = other.d;
-    //qDebug("copy constructor CameraWidget");
+    //qDebug() << "copy constructor CameraWidget";
 }
 
 void CameraWidget::init(){
@@ -169,7 +170,7 @@ void CameraWidget::setPixmap ( QPixmap * p){
   QWidget * window = this->window();
   if ( isVisible() && isVisibleTo( window ) ) {
         if (p->isNull()){
-            qDebug( "CameraWidget::setPixmap: is Null" );
+            qDebug() << "CameraWidget::setPixmap: is Null";
             return;
         }
 
@@ -432,7 +433,7 @@ QString CameraWidget::uniqueId() const{
 }
 
 void CameraWidget::newEvents( int count ){
-    qDebug( qPrintable(QString("CameraWidget::newEvents: implement! Detected %1 events").arg( QString::number( count ) ) ) );
+    qDebug() << QString("CameraWidget::newEvents: implement! Detected %1 events").arg( QString::number( count ) );
 
     bool ignore = d->cameraEvent && d->cameraEvent->isVisible();
     if ( !ignore )

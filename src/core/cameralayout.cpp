@@ -21,7 +21,7 @@
 #include "cameralayout.h"
 #include "blackwidget.h"
 #include <QtGui/QtGui>
-
+#include <QDebug>
 
 class CameraLayout::Private{
 public:
@@ -64,7 +64,7 @@ void CameraLayout::setColumns( int columns ){
 
 void CameraLayout::addWidget ( QWidget * widget ){
     if ( !checkLayoutDimensions ( ) ){
-         qDebug("CameraLayout::addWidget: Not Enough Space" );
+         qDebug() << "CameraLayout::addWidget: Not Enough Space";
          return;
     }
     QLayoutItem *item = itemAtPosition( d->rowCount, d->columnCount );

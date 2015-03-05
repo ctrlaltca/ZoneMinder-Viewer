@@ -31,7 +31,9 @@ int main(int argc, char *argv[])
       QCoreApplication::setOrganizationDomain("zmviewer.sf.net");
       QCoreApplication::setApplicationName("zmviewer");
       QApplication app(argc, argv);
+#if QT_VERSION < 0x050000
       QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+#endif
       QSplashScreen splash( QPixmap(":/img/Splash"));
       splash.show();
       splash.showMessage( QObject::tr("Loading...") );

@@ -131,8 +131,8 @@ void FrameWidget::paintEvent ( QPaintEvent * event ){
     QRect target = rect();
 
     if ( d->aspectRatioMode == Qt::KeepAspectRatio ){
-        int left = qRound(( target.width() - d->pixmap.width()   ) / 2 );
-        int top = qRound(( target.height() - d->pixmap.height()   ) / 2 );
+        int left = qRound((float) ( target.width() - d->pixmap.width()   ) / 2 );
+        int top = qRound((float) ( target.height() - d->pixmap.height()   ) / 2 );
         target.setTop( top );
         target.setLeft( left );
     }

@@ -27,6 +27,7 @@
 #include <QPixmap>
 #include <QTimer>
 #include <QUrl>
+#include <QDebug>
 
 class Stream::Private
 {
@@ -99,7 +100,7 @@ void Stream::setMode ( const StreamMode &mode )
 {
     if ( mode != JPEG )
     {
-        qDebug ( "Stream:setMode(): Not implemented yet!" );
+        qDebug() << "Stream:setMode(): Not implemented yet!";
         d->mode = "Invalid";
     }
     d->mode = "jpeg";
@@ -150,7 +151,7 @@ bool Stream::image ( const QByteArray &array )
         return true;
     }
 #ifdef DEBUG_PARSING
-    qDebug ( "Stream::image: NOT ready" );
+    qDebug() << "Stream::image: NOT ready";
 #endif
     return false;
 }
@@ -174,7 +175,7 @@ void Stream::start()
         connection.append("&"+d->appendString);
 
     QString complete_url = QString("http://%1%2").arg(d->host).arg(connection);
-    qDebug(qPrintable(complete_url));
+    qDebug() << complete_url;
 
     d->reply = d->manager->get(QNetworkRequest(QUrl(complete_url)));
     connect( d->reply, SIGNAL(readyRead()), this, SLOT(read()) );
@@ -187,10 +188,12 @@ void Stream::stop()
     d->userStatus = Stopped;
     setStatus( Stream::Stopped );
     d->finishedConnection = true;
+    /*
     disconnect( d->reply, SIGNAL(readyRead()), this, SLOT(read()) );
     disconnect( d->reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(readError(QNetworkReply::NetworkError)) );
     disconnect( d->reply, SIGNAL(finished()), this, SLOT(finishedConnection()) );
+    */
 }
 
 void Stream::restart(){

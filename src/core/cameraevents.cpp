@@ -39,6 +39,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTimer>
+#include <QDebug>
 
 class CameraEventCalendar : public QCalendarWidget{
 public:
@@ -228,8 +229,8 @@ void CameraEvents::updateDeleteButton( const QModelIndex & index ){
 
 void CameraEvents::deleteEvent(){
     int row = m_view->currentIndex().row();
-    qDebug ( qPrintable (m_model->record( row ).value( Id ).toString() ) );
-    qDebug ( "CameraEvents::deleteEvent: implement me!" );
+    qDebug() << m_model->record( row ).value( Id ).toString();
+    qDebug() << "CameraEvents::deleteEvent: implement me!";
     
 }
 

@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QtNetwork/QNetworkReply>
+
 class QString;
 class QPixmap;
 class QByteArray;

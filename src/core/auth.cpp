@@ -33,6 +33,7 @@
 #include <QTcpSocket>
 
 #include <QSettings>
+#include <QDebug>
 
 Auth::Auth ( const QString & db , QObject * parent )
     :QObject(parent), m_db(db), m_isAuth(false), m_AuthType(NONE), m_needAuth(false)
@@ -68,11 +69,11 @@ bool Auth::userLogin ( const QString &username , const QString &password )
 {
     if ( m_AuthType == NONE && !m_needAuth )
     {
-        qDebug ( "userLogin::Try to login with NONE ? Please Fix this." );
+        qDebug() << "userLogin::Try to login with NONE ? Please Fix this.";
         return m_isAuth = true;
     }
     /*if ( m_AuthType == HASHED){
-            qDebug("userLogin::HASHED Auth not implemented yet!");
+            qDebug() << "userLogin::HASHED Auth not implemented yet!";
             return m_isAuth = true;
     }*/
     QSqlDatabase db = QSqlDatabase::database ( m_db );
@@ -136,13 +137,13 @@ QByteArray Auth::authKey( ) const
 
     query = db.exec ( QString ( "SELECT now()" ) );
     query.next();
-    if ( !query.isValid() ) qDebug ("Hash Error: Can not read Server Time. now() function doesn't work");
+    if ( !query.isValid() ) qDebug() << "Hash Error: Can not read Server Time. now() function doesn't work";
     QString dateTimeString = query.value ( 0 ).toString();
     QDateTime dateTime = QDateTime::fromString( dateTimeString, Qt::ISODate );
     if ( ! dateTime.isValid() )
-		qDebug ("Hash Error: not iso datetime from server");
+		qDebug() << "Hash Error: not iso datetime from server";
     query.clear();
-    qDebug ( qPrintable (dateTimeString) );
+    qDebug() << dateTimeString;
 
     auth_key += m_userName;
     auth_key += m_hashPassword;
@@ -174,11 +175,11 @@ QByteArray Auth::authKey( ) const
     auth_key += QString::number ( dateTime.date().month() -1 );//month
     auth_key += QString::number ( dateTime.date().year() - 1900 );//years since 1900
 
-    qDebug ( qPrintable ( "authkey:" + auth_key ));
+    qDebug() << "authkey:" << auth_key;
 
     QByteArray ret = QCryptographicHash::hash ( auth_key.toUtf8()  , QCryptographicHash::Md5 );
-    qDebug ( qPrintable(QString (auth_key.toUtf8())) );
-    qDebug ( qPrintable(QString (ret.toHex())) );
+    qDebug() << auth_key;
+    qDebug() << ret.toHex();
     return ret.toHex();
 
 }

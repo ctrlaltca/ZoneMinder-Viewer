@@ -37,7 +37,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <QSettings>
-
+#include <QDebug>
 
 #ifdef Q_WS_WIN
     #define DATADIR QDir::homePath()+QDir::separator()+"zmviewer"
@@ -151,7 +151,7 @@ void StyleDialog::init(){
     QDir sharedStyleDir ( ZMVIEWER_STYLE_DIR );
     foreach ( QFileInfo info , sharedStyleDir.entryInfoList() ){
         if ( info.fileName() == "." || info.fileName()=="..") continue;
-        qDebug ( qPrintable(info.fileName() ) );
+        qDebug() << info.fileName();
         if ( info.isDir () ){
                 Style style ( info.absolutePath()+ QDir::separator()+  info.fileName() +  QDir::separator() + info.fileName() + ".xml");
                 d->styles.append ( style );
@@ -159,7 +159,7 @@ void StyleDialog::init(){
     }
     foreach ( QFileInfo info , dir.entryInfoList() ){
         if ( info.fileName() == "." || info.fileName()=="..") continue;
-        qDebug ( qPrintable(info.fileName() ) );
+        qDebug() << info.fileName();
         if ( info.isDir () ){
                 Style style ( info.absolutePath()+ QDir::separator()+  info.fileName() +  QDir::separator() + info.fileName() + ".xml");
                 d->styles.append ( style );

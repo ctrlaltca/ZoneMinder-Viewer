@@ -73,7 +73,7 @@ void About::showAboutDialog()
 
 
 /*static char * About::applicationName(){
-    return qPrintable(QObject::QObject::tr( "ZoneMinder Viewer" ));
+    return QObject::QObject::tr( "ZoneMinder Viewer" );
 }*/
 
 QString About::applicationName()
